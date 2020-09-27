@@ -69,6 +69,14 @@ class AddAvailableModal extends Component {
       let error = this.state.error;
       let formIsValid = true;
 
+      if(this.state.doctors.length == 0){
+        console.log("DOCTOR: ")
+        console.log(this.state.doctors)
+        this.setState({
+          doctors : this.state.doctors.push(this.props.doctorID)
+        })
+      }
+
       if(moment(moment(time, "h:mm A").toDate()).isBefore(moment().toDate()) && moment(date).isSame(moment().toDate(), 'day')){
           error['time']= true;
           toast({
@@ -242,9 +250,8 @@ class AddAvailableModal extends Component {
             time:this.state.time,
             doctors:this.state.doctors,
           }
-          if(Array.isArray(this.state.doctors[0])){
-            appointment.doctors = this.state.doctors[0]
-          }
+
+          
   
           axios.post('http://localhost:3000/secretary/create', appointment).then(res =>{
             if(res.data.message == true){
